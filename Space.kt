@@ -9,6 +9,10 @@ class Space {
             get(): Int {
             return field++
         }
+
+        fun reset(){
+            nextNumber = 1
+        }
     }
 
     val number: Int

@@ -1,22 +1,51 @@
 package parking
 
+import java.lang.Exception
 import java.util.*
 
 fun main() {
     val scanner = Scanner(System.`in`)
-    val lot = Lot(20)
+    var lotExists = false
+    var lot = Lot(0) // Placeholder
 
-    while(scanner.hasNext()) {
+    loop@do {
 
-        var input= scanner.nextLine().split(" ")
+        val input = scanner.nextLine().split(" ")
 
-        if (input[0] == "park") {
-            park(lot, input[1], input[2])
-        } else if (input[0] == "leave") {
-            unpark(lot, input[1].toInt())
+        try {
+            when {
+                input[0] == "exit" -> break@loop
+                input[0] == "create" -> {
+                    val newLot = create(input[1].toInt())
+                    if (newLot is Lot) {
+                        lot = newLot
+                        lotExists = true
+                    }
+                }
+                lotExists -> when (input[0]) {
+                    "park" -> park(lot, input[1], input[2])
+                    "leave" -> leave(lot, input[1].toInt())
+                    "status" -> lot.printStatus()
+                }
+                else -> println("Sorry, a parking lot has not been created.")
+
+            }
+        } catch (e: Exception) {
+            println(e.message)
         }
+    } while (input[0] != "exit")
+}
+
+fun create(spaces: Int): Lot? {
+    return if (spaces < 1) {
+        println("Lot must have number of spaces > 1")
+        null
+    } else {
+        println("Created a parking lot with $spaces spots.")
+        Lot(spaces)
     }
 }
+
 
 fun park(lot: Lot, carId: String, carColor: String) {
     val carToPark = Car(carId, carColor)
@@ -29,7 +58,7 @@ fun park(lot: Lot, carId: String, carColor: String) {
     }
 }
 
-fun unpark(lot: Lot, spaceNumber: Int) {
+fun leave(lot: Lot, spaceNumber: Int) {
     val unparkedCar = lot.unpark(spaceNumber)
 
     if (unparkedCar == null) {
