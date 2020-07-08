@@ -8,7 +8,7 @@ fun main() {
     var lotExists = false
     var lot = Lot(0) // Placeholder
 
-    loop@do {
+    loop@ do {
 
         val input = scanner.nextLine().split(" ")
 
@@ -26,6 +26,9 @@ fun main() {
                     "park" -> park(lot, input[1], input[2])
                     "leave" -> leave(lot, input[1].toInt())
                     "status" -> lot.printStatus()
+                    "reg_by_color" -> lot.printRegByColor(input[1])
+                    "spot_by_color" -> lot.printSpotByColor(input[1])
+                    "spot_by_reg" -> lot.printSpotByReg(input[1])
                 }
                 else -> println("Sorry, a parking lot has not been created.")
 

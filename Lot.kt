@@ -55,4 +55,48 @@ class Lot (numberSpaces: Int){
             println("${space.number} ${space.car!!.id} ${space.car!!.color}")
         }
     }
+
+    fun printRegByColor(color: String) {
+        val matches: MutableList<String> = mutableListOf()
+
+        for (space in spaces) {
+            if (space.car?.color?.toLowerCase() == color.toLowerCase()) {
+                matches.add(space.car!!.id)
+            }
+        }
+
+        if (matches.isEmpty()){
+            println("No cars with color $color were found.")
+        } else {
+            println(matches.joinToString(", "))
+        }
+    }
+
+    fun printSpotByColor(color: String) {
+
+        val matches: MutableList<Int> = mutableListOf()
+
+        for (space in spaces) {
+            if (space.car?.color?.toLowerCase() == color.toLowerCase()) {
+                matches.add(space.number)
+            }
+        }
+
+        if (matches.isEmpty()){
+            println("No cars with color $color were found.")
+        } else {
+            println(matches.joinToString(", "))
+        }
+    }
+
+    fun printSpotByReg(registration: String) {
+        for (space in spaces) {
+            if (space.car?.id?.toLowerCase() == registration.toLowerCase()) {
+                println(space.number)
+                return
+            }
+        }
+
+        println("No cars with registration number $registration were found.")
+    }
 }
